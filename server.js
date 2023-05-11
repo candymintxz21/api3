@@ -39,7 +39,7 @@ app.get('/getinformation/', function (req, res, next) {
     //res.json({ status: "error", message: decoded });
     connection.query(
         'SELECT * FROM `information` WHERE `email` = ?',
-        [decoded.Users],
+        [decoded.email],
         function (err, results) {
             res.json(results);
         }
