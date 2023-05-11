@@ -1,7 +1,7 @@
 var express = require('express')
 var cors = require('cors')
-// var bodyParser = require('body-parser')
-// var jsonParser = bodyParser.json() 
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json() 
 var jwt = require('jsonwebtoken');
 const secret = 'Lilyn'
 
