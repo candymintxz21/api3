@@ -12,14 +12,16 @@ const secret = 'Lilyn'
 //     database: 'webb'
 // }); 
 
-require('dotenv').config()
-const mysql = require('mysql2')
-const connection = mysql.createConnection(process.env.DATABASE_URL)
-console.log('Connected to PlanetScale!')
+
 
 var app = express()
 app.use(cors())
 app.use(express.json())
+
+require('dotenv').config()
+const mysql = require('mysql2')
+const connection = mysql.createConnection(process.env.DATABASE_URL)
+console.log('Connected to PlanetScale!')
 
 app.get('/information', function (req, res, next) {
     connection.query(
