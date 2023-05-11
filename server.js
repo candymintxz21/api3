@@ -125,7 +125,7 @@ app.post('/login',function (req, res, next) {
                 return
             } else if(results.length > 0){
                 const token = jwt.sign({email: results[0].email}, secret, { expiresIn: '1h' });
-                res.json({status: 'ok', message: "Login success " ,token: token, data: results[0]})
+                res.json({status: 'ok', message: "Login success " ,token: token, data: results[0].email})
 
             }else{
                 res.json({status: 'error', message: 'Invalid username'})
