@@ -61,10 +61,12 @@ app.post('/updateinformation', function (req, res, next) {
     const data9 = req.body.data9;
     const data10 = req.body.data10;
     const token = req.headers.authorization.split(" ")[1];
+    console.log(token);
     var decoded = jwt.verify(token, secret);
+    console.log(decoded.email);
     connection.execute(
         'UPDATE information SET `cardnumber` = ?, `name` = ?, `surname` = ?, `nickname` = ?, `age` = ?, `address` = ?, `parentname` = ?, `phone` = ?, `email` = ?, `allergicfood` = ? WHERE email = ?',
-        [req.body.data1, req.body.data2, req.body.data3, req.body.data4, req.body.data5, req.body.data6, req.body.data7, req.body.data8, req.body.data9, req.body.data10, decoded.Users],
+        [req.body.data1, req.body.data2, req.body.data3, req.body.data4, req.body.data5, req.body.data6, req.body.data7, req.body.data8, req.body.data9, req.body.data10, decoded.email],
         function (err, results) {
             if (err) {
                 console.log(err);
@@ -122,8 +124,9 @@ app.post('/login',function (req, res, next) {
                 res.json({status: 'error', message: err})
                 return
             } else if(results.length > 0){
-                const token = jwt.sign({Users: req.body.Users}, secret, { expiresIn: '1h' });
-                res.json({status: 'ok', message: "Login success" ,token: token})
+                const token = jwt.sign({email: results[0].email}, secret, { expiresIn: '1h' });
+                res.json({status: 'ok', message: "Login success " ,token: token, data: results[0]})
+
             }else{
                 res.json({status: 'error', message: 'Invalid username'})
             }
