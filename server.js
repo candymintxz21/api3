@@ -1,7 +1,7 @@
 var express = require('express')
 var cors = require('cors')
-// var bodyParser = require('body-parser')
-// var jsonParser = bodyParser.json() 
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json() 
 var jwt = require('jsonwebtoken');
 const secret = 'Lilyn'
 
@@ -86,7 +86,7 @@ app.get('/information/:id', function (req, res, next) {
     );
 })
 
-app.post('/addinformation', function (req, res, next) {
+app.post('/addinformation',jsonParser, function (req, res, next) {
     // const data1 = req.body.data1;
     // const data2 = req.body.data2;
     // const data3 = req.body.data3;
@@ -98,19 +98,20 @@ app.post('/addinformation', function (req, res, next) {
     // const data9 = req.body.data9;
     // const data10 = req.body.data10;
     connection.execute(
-        'INSERT INTO information (cardnumber, name, surname, nickname, age, address, parentname, phone, email, allergicfood) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [req.body.cardnumber, req.body.name, req.body.surname, req.body.nickname, req.body.age, req.body.address, req.body.parentname, req.body.phone, req.body.email, req.body.allergicfood],
+        'INSERT INTO information (cardnumber,name,surname,nickname,age,address,parentname,phone,email,allergicfood) VALUES (?,?,?,?,?,?,?,?,?,?)',
+        [req.body.cardnumber,req.body.name,req.body.surname,req.body.nickname,req.body.age,req.body.address,req.body.parentname,req.body.phone,req.body.email,req.body.allergicfood],
         function (err, results) {
             if (err) {
                 console.log(err);
-            }else{
-                res.json({status: "success", message:results});
+                return
             }
+                res.json({status: "success", message:results});
+            
         }
     );
 })
 
-app.post('/login' , function (req, res, next) {
+app.post('/login',jsonParser , function (req, res, next) {
     connection.execute(
         'SELECT * FROM information WHERE email = ? AND cardnumber = ?',
         [req.body.email,req.body.cardnumber],
